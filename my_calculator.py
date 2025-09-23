@@ -45,8 +45,10 @@ def logic():
     else: print('Неверная операция')
         
 def sravneniya():
-    a=for_numb(a_noеt) = input('a (Число или строка)')
-    b=for_numb(b_noеt) = input('b (Число или строка)')
+    a_noеt = input('a (Число или строка)')
+    b_noеt = input('b (Число или строка)')
+    a = for_numb(a_noеt)
+    b = for_numb(b_noеt)
     pop = input('Операция (== != > < >= <=): ').strip()
     try:
         if pop == '==': print(a==b)
