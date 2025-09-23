@@ -38,11 +38,31 @@ def logic():
     print('a и b (True, False или число)')
     a=for_bool(input('a: '))
     b=for_bool(input('b: '))
-    #Доделать, тк не знаю что тут происходит уже
+    pop = input('Операция (and / or/ not)').strip()
+    if pop == 'and': print(a and b)
+    elif pop == 'or': print(a or b)
+    elif pop == 'not': print(not a)
+    else: print('Неверная операция')
+        
+def sravneniya():
+    a=for_numb(a_noеt) = input('a (Число или строка)')
+    b=for_numb(b_noеt) = input('b (Число или строка)')
+    pop = input('Операция (== != > < >= <=): ').strip()
+    try:
+        if pop == '==': print(a==b)
+        elif pop == '!=': print(a!=b)
+        elif pop == '>': print(a>b)
+        elif pop == '<': print(a<b)
+        elif pop == '>=': print(a>=b)
+        elif pop == '<=': print(a<=b)
+        else: print('Неизвестная операция')
+    except Exception:
+        print('Нельзя сранвить')
+
+
 
 
     #Здесь самый сок будет, но потом
-#def logic():
 #def logic():
 #def logic():
 #def logic():
@@ -55,7 +75,7 @@ def main():         # -> Корень кода (кальки), сюда все d
         num = input()
         if num == '1': arifmet()
         elif num == '2': logic()
-        #elif num == '3':
+        elif num == '3': sravneniya ()
         #elif num == '4': 
         #elif num == '5':
         #elif num == '6':
