@@ -77,10 +77,22 @@ def identity():
     elif pop=='is not': print(a is not b)
     else: print('Неверная операция')
 
-
-    #Здесь самый сок будет, но потом
-#def logic():
-    #Здесь самый сок будет, но потом
+def notka():
+    xren = input('Контейнер у нас: (1)-Строка || (2)-Список').strip()
+    if xren=='1':
+        sos=input('Строка')
+        sas=input('Подстрока')
+        pop=input('Оператор').strip().lower()
+        if pop=="in": print(sas in sos)
+        elif pop=="not in": print(sas not in sos)
+        else: print('Неизвестный оператор')
+    elif xren=='2':
+        listok=input('Элементы через запятую').strip(',')
+        listochek_litl=input('Элементик').strip()
+        pop=input('Оператор').strip().lower()
+        if pop=="in": print(listok in [x.strip() for x in listok])
+        elif pop=="not in": print(listok not in [x.strip() for x in listok])
+        else: print('Неизвестный оператор')
 
 
 def main():         # -> Корень кода (кальки), сюда все def'ки подтягиваются, которые написаны (должны быть) выше
@@ -91,7 +103,8 @@ def main():         # -> Корень кода (кальки), сюда все d
         elif num == '2': logic()
         elif num == '3': sravneniya()
         elif num == '4': identity()
-        #elif num == '5': 
+        elif num == '5': notka()
+        elif num == '0': break
         else: print('Говно число')
 
 if __name__=="__main__":    # -> Запук из под корня, трогает сразу main
