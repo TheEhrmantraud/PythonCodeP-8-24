@@ -1,5 +1,3 @@
-import ast
-
 def arifmet():
     a=int(input('a: '))
     b=int(input('b: '))
@@ -22,9 +20,15 @@ def arifmet():
 # Важные штучки
 def for_bool(sos):    # -> тута проверяемс циферки на True/False
     sos.strip().lower()
-    if sos in ('true', 't', '1', 'yes', 'y'): return True
-    if sos in ('false', 'f', '0', 'no', 'n'): return False
-
+    try:
+        if sos in ('true', 't', '1', 'yes', 'y'): return True
+    except:
+        return None
+    try:    
+        if sos in ('false', 'f', '0', 'no', 'n'): return False
+    except:
+        return None
+        
 def for_numb(sos):    # -> тута проверяемс циферки на int/float
     try:            # -> попытка вспомнить как работает try/except for testing input numbers 
         if '.' in sos: return float(sos)
@@ -37,13 +41,22 @@ def for_numb(sos):    # -> тута проверяемс циферки на int
 # Конец важных штучек
 
 def logic():
-    print('a и b (True, False или число)')
-    a=for_bool(input('a: '))
-    b=for_bool(input('b: '))
+    while True:
+        print('a и b (True, False или 0-1)')
+        a=for_bool(input('a: '))
+        if a != None:
+            break
+        print('Введено неверное значениe. Попробуйте еще раз')
+
+    while True:
+        b=for_bool(input('b: '))
+        if b != None:
+            break
+        print('Введено неверное значениe. Попробуйте еще раз')
     pop = input('Операция (and / or/ not): ').strip()
     if pop == 'and': print(a and b)
     elif pop == 'or': print(a or b)
-    elif pop == 'not': print(not a)
+    elif pop == 'not': print(f'\na: {not a}\nb: {not b}')
     else: print('Неверная операция')
         
 def sravneniya():
@@ -64,18 +77,23 @@ def sravneniya():
         print('Нельзя сравнить')
 
 def identity():
-    try:    
-        a=ast.literal_eval(input('a (литералка, напр. 10, "hi", [1,2]): '))
-    except:
-        a=input('Вы ввели строчку? Повторите-ка её a: ')
-    try:    
-        b=ast.literal_eval(input('b (литералка, напр. 10, "hi", [1,2]): '))
-    except:
-        b=input('Вы ввели строчку? Повторите-ка её b: ')
-    pop=input('is или is not?: ').strip().lower()
-    if pop=='is': print(a is b)
-    elif pop=='is not': print(a is not b)
-    else: print('Неверная операция')
+    x=input('a & b числа? ').strip().lower()
+    if x in ('да', 'д', '1','lf', 'true', 't'): 
+        a=for_numb(input('a (Число): '))
+        b=for_numb(input('b (Число): '))
+        pop=input('is или is not?: ').strip().lower()
+        if pop=='is': print(a is b)
+        elif pop=='is not': print(a is not b)
+        else: print('Неверная операция')
+    elif x in ('нет', 'н', '0', 'ytn', 'false', 'f'):  
+        a=input('a (Список, слово и тп.): ')
+        b=input('b (Список, слово и тп.): ')
+        pop=input('= или !=?: ').strip().lower()
+        if pop=='=': print(a == b)
+        elif pop=='!=': print(a != b)
+        else: print('Неверная операция')
+    else:
+        print('Неверная операция')
 
 def notka():
     xren = input('Контейнер у нас: (1)-Строка || (2)-Список: ').strip()
