@@ -21,11 +21,11 @@ def arifmet():
 def for_bool(sos):    # -> тута проверяемс циферки на True/False
     sos.strip().lower()
     try:
-        if sos in ('true', 't', '1', 'yes', 'y'): return True
+        if sos in ('true', 't', '1', 'yes', 'y', 'да', 'д', 'lf'): return True
     except:
         return None
     try:    
-        if sos in ('false', 'f', '0', 'no', 'n'): return False
+        if sos in ('false', 'f', '0', 'no', 'n', 'нет', 'н', 'ytn'): return False
     except:
         return None
         
@@ -47,7 +47,6 @@ def logic():
         if a != None:
             break
         print('Введено неверное значениe. Попробуйте еще раз')
-
     while True:
         b=for_bool(input('b: '))
         if b != None:
@@ -78,14 +77,14 @@ def sravneniya():
 
 def identity():
     x=input('a & b числа? ').strip().lower()
-    if x in ('да', 'д', '1','lf', 'true', 't'): 
+    if for_bool(x) == True: 
         a=for_numb(input('a (Число): '))
         b=for_numb(input('b (Число): '))
         pop=input('is или is not?: ').strip().lower()
         if pop=='is': print(a is b)
         elif pop=='is not': print(a is not b)
         else: print('Неверная операция')
-    elif x in ('нет', 'н', '0', 'ytn', 'false', 'f'):  
+    elif for_bool(x) == False:  
         a=input('a (Список, слово и тп.): ')
         b=input('b (Список, слово и тп.): ')
         pop=input('= или !=?: ').strip().lower()
