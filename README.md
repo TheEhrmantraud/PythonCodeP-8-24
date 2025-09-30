@@ -1,2 +1,1 @@
-## **This is a bad idea**
-#### *but maybe something will come of it...*
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&lines=Python+is+the+best+among+the+worst)](https://git.io/typing-svg)
