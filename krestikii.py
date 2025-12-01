@@ -15,22 +15,40 @@ def create_board(n):
     return [[' 'for _ in range(n)] for _ in range(n)]
 
 def view_board(board):
-    pass
-    # l = len(board)
-    # print()
-    # for i in range(l):
-    #     print(i + '|' '|')
+    l = len(board)
+    print('\n  ' + ' '.join(str(i) for i in range(l)))
+    for i in range(l):
+        print(i, '| ' + ' | '.join(board[i]) + ' |')
+    print()
 
 
-def bot(n):
-    pass
+def bot(board):
+    n = len(board)
+    while True:
+        x = random.randint(0, n-1)
+        y = random.randint(0, n-1)
+        if board[x][y] == ' ':
+            return x,y    
+    
+
+def win(board, symbol):
+    l = len(board)
+    for i in range(l):
+        if all(board[i][j] == symbol for j in range(l)):
+            return True
+        if all(board[j][i] == symbol for j in range(l)):
+            return True
+    
+    
+        # Диагонали
+    if all(board[i][i] == symbol for i in range(l)):
+        return True
+    if all(board[i][l - i - 1] == symbol for i in range(l)):
+        return True
 
 
-
-def draw():
-    pass
-def win():
-    pass
+def draw(board):
+    return all(kl != " " for row in board for kl in row)
 
 def game(pvp=True):
     n = int(input('Введите размер поля: '))
@@ -43,7 +61,7 @@ def game(pvp=True):
         print(f'ходит: {player}')
         
         if player == 'O' and not pvp:
-            x, y = bot(n)
+            x, y = bot(board)
             print(f'Бот сходил на ({x}, {y})')
             
         else:
@@ -69,10 +87,18 @@ def game(pvp=True):
         
         
         #Проверка на победу    
-        if win():
-            pass
-        if draw():
-            pass
+        if win(board, player):
+            view_board(board)
+            print(f"Игрок {player} победил")
+            save_stat(f"Победа {player}")
+            break
+        
+        
+        if draw(board, player):
+            view_board(board)
+            print("Ничья")
+            save_stat("Ничья")
+            break
         #Проверка на победу
         
         
@@ -90,10 +116,12 @@ def main():
         choce = int(input())
         if choce==1:
             game(pvp=False)
-        if choce==2:
+        elif choce==2:
             game(pvp=True)
-        if choce==3:
+        elif choce==3:
             print('Пока')
+            break
+        else:
             break
         
 if __name__ == "__main__":
