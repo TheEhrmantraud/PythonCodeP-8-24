@@ -16,7 +16,7 @@ def create_board(n):
 
 def view_board(board):
     l = len(board)
-    print('\n  ' + ' '.join(str(i) for i in range(l)))
+    print('\n  ' + '    '.join(str(i) for i in range(l)))
     for i in range(l):
         print(i, '| ' + ' | '.join(board[i]) + ' |')
     print()
@@ -94,7 +94,7 @@ def game(pvp=True):
             break
         
         
-        if draw(board, player):
+        if draw(board):
             view_board(board)
             print("Ничья")
             save_stat("Ничья")
