@@ -6,7 +6,7 @@ BOOKS_FILE = "books.txt"
 USERS_FILE = "users.txt"
 
 
-# ---------- Абстракция ----------
+
 class Person(ABC):
     def __init__(self, name):
         self._name = name  # инкапсуляция
@@ -16,7 +16,7 @@ class Person(ABC):
         pass
 
 
-# ---------- Классы сущностей ----------
+
 class Book:
     def __init__(self, title, author, status="доступна"):
         self.title = title
@@ -95,7 +95,7 @@ class Reader(Person):
                 break
 
 
-# ---------- Полиморфизм ----------
+
 class Library:
     def __init__(self):
         self.books = []
@@ -193,7 +193,6 @@ class Library:
                 print("Ваши книги:", u.books)
 
 
-# ---------- Запуск ----------
 def main():
     library = Library()
 
