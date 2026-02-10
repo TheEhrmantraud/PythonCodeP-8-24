@@ -28,9 +28,9 @@ class Book:
 
 
 class User:
-    def __init__(self, name):
+    def __init__(self, name, books=None):
         self.name = name
-        self.books = []
+        self.books = books or []
 
     def to_dict(self):
         return {"name": self.name, "books": self.books}
