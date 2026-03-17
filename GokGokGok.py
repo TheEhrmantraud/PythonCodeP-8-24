@@ -1,10 +1,12 @@
+# ___Пикле___
 from abc import ABC, abstractmethod
 import json
 import os
+import pickle
 
 BOOKS_FILE = "books.txt"
 USERS_FILE = "users.txt"
-
+PICKLE_FILE = "library.pkl"
 
 
 class Person(ABC):
@@ -14,7 +16,6 @@ class Person(ABC):
     @abstractmethod
     def menu(self):
         pass
-
 
 
 class Book:
@@ -95,7 +96,6 @@ class Reader(Person):
                 break
 
 
-
 class Library:
     def __init__(self):
         self.books = []
@@ -103,22 +103,66 @@ class Library:
         self.load_data()
 
     def load_data(self):
+        if os.path.exists(PICKLE_FILE):
+            try:
+                with open(PICKLE_FILE, "rb") as f:
+                    data = pickle.load(f)
+                if isinstance(data, Library):
+                    self.books = data.books
+                    self.users = data.users
+                elif isinstance(data, dict):
+                    self.books = data.get("books", [])
+                    self.users = data.get("users", [])
+                else:
+                    try:
+                        self.books = data[0]
+                        self.users = data[1]
+                    except Exception:
+                        self.books = []
+                        self.users = []
+                return
+            except Exception as e:
+                print("Не удалось загрузить pickle:", e)
+
+        #json формат
         if os.path.exists(BOOKS_FILE):
-            with open(BOOKS_FILE, "r", encoding="utf-8") as f:
-                self.books = [Book(**json.loads(line)) for line in f]
+            try:
+                with open(BOOKS_FILE, "r", encoding="utf-8") as f:
+                    self.books = [Book(**json.loads(line)) for line in f if line.strip()]
+            except Exception as e:
+                print("Ошибка при чтении", BOOKS_FILE, ":", e)
+                self.books = []
 
         if os.path.exists(USERS_FILE):
-            with open(USERS_FILE, "r", encoding="utf-8") as f:
-                self.users = [User(**json.loads(line)) for line in f]
+            try:
+                with open(USERS_FILE, "r", encoding="utf-8") as f:
+                    self.users = [User(**json.loads(line)) for line in f if line.strip()]
+            except Exception as e:
+                print("Ошибка при чтении", USERS_FILE, ":", e)
+                self.users = []
 
     def save_data(self):
-        with open(BOOKS_FILE, "w", encoding="utf-8") as f:
-            for book in self.books:
-                f.write(json.dumps(book.to_dict(), ensure_ascii=False) + "\n")
+        # 1) pickle
+        try:
+            with open(PICKLE_FILE, "wb") as f:
+                pickle.dump({"books": self.books, "users": self.users}, f)
+        except Exception as e:
+            print("Ошибка при сохранении pickle:", e)
 
-        with open(USERS_FILE, "w", encoding="utf-8") as f:
-            for user in self.users:
-                f.write(json.dumps(user.to_dict(), ensure_ascii=False) + "\n")
+        # 2) в старом формате
+        try:
+            with open(BOOKS_FILE, "w", encoding="utf-8") as f:
+                for book in self.books:
+                    f.write(json.dumps(book.to_dict(), ensure_ascii=False) + "\n")
+        except Exception as e:
+            print("Ошибка при записи", BOOKS_FILE, ":", e)
+
+        try:
+            with open(USERS_FILE, "w", encoding="utf-8") as f:
+                for user in self.users:
+                    f.write(json.dumps(user.to_dict(), ensure_ascii=False) + "\n")
+        except Exception as e:
+            print("Ошибка при записи", USERS_FILE, ":", e)
 
     # ---------- Библиотекарь ----------
     def add_book(self):
@@ -129,10 +173,22 @@ class Library:
         print("Книга добавлена")
 
     def remove_book(self):
-        title = input("Название книги для удаления: ")
-        self.books = [b for b in self.books if b.title != title]
+        title = input("Название книги для удаления: ").strip()
+
+        book = next((b for b in self.books if b.title == title), None)
+
+        if not book:
+            print("книги нет")
+            return
+
+        for user in self.users:
+            if title in user.books:
+                print(f"книга пользователя: {user.name}")
+                return
+
+        self.books.remove(book)
         self.save_data()
-        print("Книга удалена")
+        print("удалена")
 
     def register_user(self):
         name = input("Имя пользователя: ")
