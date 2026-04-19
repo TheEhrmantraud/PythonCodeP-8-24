@@ -6,7 +6,7 @@ import pickle
 
 BOOKS_FILE = "books.txt"
 USERS_FILE = "users.txt"
-PICKLE_FILE = "library.pkl"
+picklee = "library.pkl"
 
 
 class Person(ABC):
@@ -25,7 +25,7 @@ class Book:
         self.status = status
 
     def to_dict(self):
-        return {"title": self.title, "author": self.author, "status": self.status}
+        return {"title": self.title, "author": self.author, "status": self.status} 
 
 
 class User:
@@ -103,9 +103,9 @@ class Library:
         self.load_data()
 
     def load_data(self):
-        if os.path.exists(PICKLE_FILE):
+        if os.path.exists(picklee):
             try:
-                with open(PICKLE_FILE, "rb") as f:
+                with open(picklee, "rb") as f:
                     data = pickle.load(f)
                 if isinstance(data, Library):
                     self.books = data.books
@@ -144,7 +144,7 @@ class Library:
     def save_data(self):
         # 1) pickle
         try:
-            with open(PICKLE_FILE, "wb") as f:
+            with open(picklee, "wb") as f:
                 pickle.dump({"books": self.books, "users": self.users}, f)
         except Exception as e:
             print("Ошибка при сохранении pickle:", e)
@@ -266,7 +266,14 @@ def main():
     elif role == "2":
         reader = Reader(name, library)
         reader.menu()
-
-
+        
+                
+    with open ('picklee', 'rb') as f:
+        x =f.read(10)
+        print(x)
+        
 if __name__ == "__main__":
     main()
+    
+
+
