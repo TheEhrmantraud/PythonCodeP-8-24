@@ -26,7 +26,7 @@ def send_messages(client_socket):
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(('127.0.0.1', 5001))
 
-receive_thread = threading.Thread(target=receive_messages, args=(client_socket,))
+receive_thread = threading.Thread(target=receive_messages, args=(client_socket,), daemon=True)
 receive_thread.start()
 
 send_messages(client_socket)

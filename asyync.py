@@ -164,7 +164,7 @@ clients = []
 client_lock = threading.Lock()
 
 
-def broadcast(message, sender=None):
+def listt(message, sender=None):
     with client_lock:
         for client in clients:
             if client != sender:
@@ -177,14 +177,14 @@ def broadcast(message, sender=None):
 
 def handle_client(client_socket, client_address):
     print(f"Клиент {client_address} подключен")
-    broadcast(f"Пользователь {client_address} вошел в чат", client_socket)
+    listt(f"Пользователь {client_address} вошел в чат", client_socket)
 
     while True:
         data = client_socket.recv(1024)
         if not data:
             break
 
-        message = data.decode("utf-8").strip()
+        message = data.decode("utf-8")
 
         if message == "q":
             with client_lock:
@@ -192,13 +192,13 @@ def handle_client(client_socket, client_address):
                     clients.remove(client_socket)
 
             print(f"Клиент отключился {client_address} (общий канал)")
-            broadcast(f"Пользователь {client_address} вышел из чата (широковещалка)")
+            listt(f"Пользователь {client_address} вышел из чата (широковещалка)")
 
             client_socket.close()
             break
 
         print(f"{client_address}: {message} (общий канал)")
-        broadcast(f"{client_address}: {message} (широковещалка)", client_socket)
+        listt(f"{client_address}: {message} (широковещалка)", client_socket)
         
     with client_lock:
         if client_socket in clients:
